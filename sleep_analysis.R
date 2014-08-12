@@ -1,7 +1,6 @@
-setwd("E:/Users/Josh/Documents/R/sleep_analysis")
 library("ggplot2", "plyr", "reshape2")
 
-sleep <- read.csv(file="sleep_data-Jul24.csv")
+sleep <- read.csv(file="data/sleep_data-Jul24.csv")
 
 # fix sleep/wake times
 sleep$Sleep.Time <- as.character(sleep$Sleep.Time)
@@ -56,4 +55,4 @@ avg.hours.melt <- melt(avg.hours, value.name="Hours", varnames=c("Day", "Term"))
 avg.hours.melt <- data.frame(avg.hours.melt)
 
 ggplot(avg.hours.melt, aes(x=Day, y=Hours, fill=Day)) + geom_bar(stat="identity") +
-  facet_wrap(~Term) + scale_fill_brewer(palette="Set3")
+  facet_wrap(~Term)
