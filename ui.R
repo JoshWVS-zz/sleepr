@@ -16,12 +16,12 @@ shinyUI(fluidPage(
     sidebarPanel(
       
       dateRangeInput("dates", "Date Range", 
-                     start = min(sleep$Date), end = max(sleep$Date), 
-                     min = min(sleep$Date), max = max(sleep$Date))
+                     start = min(sleep$date), end = max(sleep$date), 
+                     min = min(sleep$date), max = max(sleep$date))
       ),
     
     mainPanel(
-      plotOutput(outputId = "test")
+      plotOutput(outputId = "main")
     ))
   
   ))

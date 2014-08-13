@@ -15,9 +15,16 @@ shinyServer(
     update.sleep <- reactive({
       
       # filter data based on user selections
-      sleep %>% filter(Date > input$dates[1], Date < input$dates[2])
+      sleep %>% 
+        filter(date > input$dates[1], date < input$dates[2]) %>%
+        group_by(day) %>%
+        mutate(average_hours = mean(hours))
     })
   
-  output$test <- renderPlot({
-    qplot(x=Day, y=Hours, data=update.sleep(), geom="bar", stat="identity")})
-})
+  output$main <- renderPlot({
+    ggplot(update.sleep(), aes(x = day, y = hours)) +
+      geom_bar(stat="identity")
+  })
+  
+  }
+)
