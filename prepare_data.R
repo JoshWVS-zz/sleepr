@@ -30,7 +30,8 @@ sleep$Term <- rep("", times=dim(sleep)[1])
 # Summer lasted until Sept. 1st, 2013
 summer.end <- as.Date("2013-09-01")
 sleep$Term[which(sleep$Date <= summer.end)] <- "Summer"
-# First term lasted until Dec 14th, 2013 (started Sept 2nd, 2013) [but Frosh week was 2-7th!!]
+# First term lasted until Dec 14th, 2013 (started Sept 2nd, 2013)
+# [but Frosh week was 2-7th!!]
 term1.end <- as.Date("2013-12-14")
 sleep$Term[which(sleep$Date <= term1.end & sleep$Date >= summer.end)] <- "Term1"
 # Second term lasted until April 15th, 2014 (started Jan 6th, 2014)
@@ -45,14 +46,9 @@ sleep$Term[which(sleep$Date >= as.Date("2014-04-28"))] <- "Work"
 sleep$Term[sleep$Term == "" & sleep$Date < term2.start] <- "XmasBreak"
 sleep$Term[sleep$Term == ""] <- "SpringBreak"
 
-sleep$Term <- factor(sleep$Term, c("Summer", "Term1", "XmasBreak", "Term2", "SpringBreak", "Work"))
+sleep$Term <- factor(sleep$Term, c("Summer", "Term1", "XmasBreak", "Term2", 
+                                   "SpringBreak", "Work"))
 
-ggplot(sleep, aes(x=Date, y=Hours, colour=Term)) + geom_point() + geom_smooth()
 
-# average hours per term
-avg.hours <- tapply(sleep$Hours, list(sleep$Day, sleep$Term), mean)
-avg.hours.melt <- melt(avg.hours, value.name="Hours", varnames=c("Day", "Term"))
-avg.hours.melt <- data.frame(avg.hours.melt)
-
-ggplot(avg.hours.melt, aes(x=Day, y=Hours, fill=Day)) + geom_bar(stat="identity") +
-  facet_wrap(~Term)
+names(sleep) <- c("date", "sleep_time", "wake_time", "hours", "day", "term")
+save(sleep, file = "sleep.data.RData")
