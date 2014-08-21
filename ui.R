@@ -1,12 +1,12 @@
 library(shiny)
 
-shinyUI(navbarPage("Counting Sheep",
+shinyUI(navbarPage("Counting Sheep", id = "tab",
                     
-  tabPanel("Boxplots", 
+  tabPanel("Boxplots", value = "boxplot",
            
            h3("Counting Sheep: A Year's Worth of Sleep"),
            
-           plotOutput("main"),
+           plotOutput("boxplot"),
            
            hr(),
            
@@ -32,15 +32,15 @@ shinyUI(navbarPage("Counting Sheep",
             )
   ),
   
-  tabPanel("Histogram",
+  tabPanel("Histogram", value = "histogram",
            
-           plotOutput("main"),
+           plotOutput("histogram"),
            
            hr(),
            
            sliderInput("bins", "Bin Size (Hours)", 
-                       min = 0, max = max(sleep$hours),
-                       value = 1, step = 0.5)
+                       min = 0.1, max = 3,
+                       value = 1, step = 0.1)
            
            )
 ))
