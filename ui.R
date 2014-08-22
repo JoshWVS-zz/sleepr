@@ -42,5 +42,15 @@ shinyUI(navbarPage("Counting Sheep", id = "tab",
                        min = 0.1, max = 3,
                        value = 1, step = 0.1)
            
-           )
+           ),
+  
+  tabPanel("Scatterplot", value = "scatterplot",
+           
+           plotOutput("scatterplot"),
+           
+           hr(),
+           
+           checkboxInput("smooth", "Show trend ribbon", TRUE))
+  
+  
 ))

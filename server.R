@@ -1,6 +1,7 @@
 library(ggplot2)
 library(reshape2)
 library(dplyr)
+library(RColorBrewer)
 
 load("sleep.data.RData")
 
@@ -32,6 +33,21 @@ shinyServer(
                         ggplot(update.sleep.histogram(), aes(x = hours)) +
                           geom_histogram(binwidth = input$bins)
                                   })
+    
+    output$scatterplot <- renderPlot({
+                        p <- ggplot(sleep, aes(x = date, y = hours, 
+                                               colour = term)) +
+                             geom_point() +
+                             scale_color_brewer(palette = "Set1") +
+                             theme(legend.position = "bottom")
+                             
+                        
+                        if (input$smooth) {
+                          p <- p + geom_smooth()
+                        }
+                        
+                        p
+    })
   
   }
 )
