@@ -1,6 +1,6 @@
 library("ggplot2", "plyr", "reshape2")
 
-sleep <- read.csv(file="data/sleep_data-Jul24.csv")
+sleep <- read.csv(file="data/sleep_data-Aug25.csv")
 
 # fix sleep/wake times
 sleep$Sleep.Time <- as.character(sleep$Sleep.Time)
@@ -28,26 +28,33 @@ sleep$Day <- factor(sleep$Day,
 # add descriptions for each term
 sleep$Term <- rep("", times=dim(sleep)[1])
 # Summer lasted until Sept. 1st, 2013
-summer.end <- as.Date("2013-09-01")
-sleep$Term[which(sleep$Date <= summer.end)] <- "Summer"
+summer2013.end <- as.Date("2013-09-01")
+sleep$Term[which(sleep$Date <= summer2013.end)] <- "Summer 2013"
 # First term lasted until Dec 14th, 2013 (started Sept 2nd, 2013)
 # [but Frosh week was 2-7th!!]
 term1.end <- as.Date("2013-12-14")
-sleep$Term[which(sleep$Date <= term1.end & sleep$Date >= summer.end)] <- "Term1"
+sleep$Term[which(sleep$Date <= term1.end & sleep$Date >= summer.end)] <- "1A"
 # Second term lasted until April 15th, 2014 (started Jan 6th, 2014)
 term2.start <- as.Date("2014-01-06")
 term2.end <- as.Date("2014-04-15") 
-sleep$Term[which(sleep$Date <= term2.end & sleep$Date >= term2.start)] <- "Term2"
+sleep$Term[which(sleep$Date <= term2.end & sleep$Date >= term2.start)] <- "1B"
 
-# work started April 28th, 2014
-sleep$Term[which(sleep$Date >= as.Date("2014-04-28"))] <- "Work"
+# work term 1: April 28th, 2014 - August 22nd, 2014
+work1.start <- as.Date("2014-04-28")
+work1.end <- as.Date("2014-08-22")
+sleep$Term[which(sleep$Date >= work1.start & sleep$Date <= work1.end)] <- "Work Term 1"
+
+# summer break 2014: August 23rd - Sept. 7th 2014
+summer2014.start <- work1.end + 1
+summer2014.end <- as.Date("2018-09-07")
+sleep$Term[which(sleep$Date >= summer2014.start & sleep$Date <= summer2014.end)] <- "Summer 2014"
 
 # all unnamed sections are break
-sleep$Term[sleep$Term == "" & sleep$Date < term2.start] <- "XmasBreak"
-sleep$Term[sleep$Term == ""] <- "SpringBreak"
+sleep$Term[sleep$Term == "" & sleep$Date < term2.start] <- "Winter Break"
+sleep$Term[sleep$Term == "" & sleep$Date < work1.start] <- "Spring Break"
 
-sleep$Term <- factor(sleep$Term, c("Summer", "Term1", "XmasBreak", "Term2", 
-                                   "SpringBreak", "Work"))
+sleep$Term <- factor(sleep$Term, c("Summer 2013", "1A", "Winter Break", "1B", 
+                                   "Spring Break", "Work Term 1", "Summer 2014"))
 
 
 names(sleep) <- c("date", "sleep_time", "wake_time", "hours", "day", "term")
