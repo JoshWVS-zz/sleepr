@@ -43,7 +43,7 @@ shinyServer(
                              
                         
                         if (input$smooth) {
-                          p <- p + geom_smooth()
+                          p <- p + geom_smooth(method = input$ribbon_method)
                         }
                         
                         p

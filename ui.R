@@ -50,7 +50,10 @@ shinyUI(navbarPage("Counting Sheep", id = "tab",
            
            hr(),
            
-           checkboxInput("smooth", "Show trend ribbon", TRUE))
-  
-  
+           checkboxInput("smooth", "Show trend ribbon", TRUE),
+           
+           selectInput("ribbon_method", "Trend ribbon method", 
+                       c("loess", "lm", "glm", "rlm", "gam"),
+                       selectize = FALSE)
+           )
 ))
