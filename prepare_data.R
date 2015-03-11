@@ -1,6 +1,6 @@
 library("ggplot2", "plyr", "reshape2")
 
-sleep <- read.csv(file="data/sleep_data-Aug25.csv")
+sleep <- read.csv(file="data/sleep_data-Mar10-2015.csv")
 
 # fix sleep/wake times
 sleep$Sleep.Time <- as.character(sleep$Sleep.Time)
